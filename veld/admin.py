@@ -2,6 +2,15 @@ from django.contrib import admin
 from .models import *
 
 
+class PostAdmin(admin.ModelAdmin):
+    list_display = ("id", "title", "time_create", "is_published",)
+    list_display_links = ("id", "title", "time_create",)
+    list_filter = ("is_published", "time_create",)
+    search_fields = ("id", "title", "time_create",)
+    list_editable = ("is_published",)
+    # prepopulated_fields = {"slug": ("title",)}
+
+
 class AppointmentAdmin(admin.ModelAdmin):
     list_display = ("id", "customer", "service", "datetime",)
     list_display_links = ("id", "customer", "service", "datetime",)
@@ -48,3 +57,4 @@ admin.site.register(Customer, CustomerAdmin)
 admin.site.register(Gender, GenderAdmin)
 admin.site.register(Service, ServiceAdmin)
 admin.site.register(Master, MasterAdmin)
+admin.site.register(Post, PostAdmin)

@@ -1,5 +1,24 @@
 from django.db import models
 
+class Post(models.Model):
+    title = models.CharField(max_length=255, verbose_name='Заголовок')
+    image = models.ImageField(upload_to="photos/%Y/%m/%d", verbose_name='Изображение')
+    text = models.TextField(blank=True, verbose_name='Текст')
+    is_published = models.BooleanField(default=True, verbose_name='Публикация')
+    time_create = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
+    time_update = models.DateTimeField(auto_now=True, verbose_name='Время изменения')
+    end_date = models.DateTimeField(verbose_name='Дата завершения включительно')
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        ordering = ('time_create',)
+        verbose_name = "Пост"
+        verbose_name_plural = "Посты"
+
+
+
 class Appointment(models.Model):
     service = models.ForeignKey('Service', on_delete=models.PROTECT, verbose_name='Услуга')
     customer = models.ForeignKey('Customer', on_delete=models.PROTECT, verbose_name='Клиент')

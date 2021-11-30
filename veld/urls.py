@@ -2,7 +2,7 @@ from django.urls import path
 from veld.views import *
 
 urlpatterns = [
-    path('', index, name='index'),
+    path('', PostHome.as_view(), name='index'),
     path('addappointment/', addappointment, name='addappointment'),
     path('pricelist/', pricelist, name='pricelist'),
     path('contacts/', contacts, name='contacts'),
