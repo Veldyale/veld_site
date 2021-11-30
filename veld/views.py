@@ -10,5 +10,20 @@ def index(request):
 
 def addappointment(request):
     form = AddAppointmentForm()
-    return render(request, 'veld/addappointment.html', {'form': form, })
+    return render(request, 'veld/addappointment.html', {'form': form})
 
+
+def pricelist(request):
+    return render(request, 'veld/pricelist.html')
+
+
+def contacts(request):
+    return render(request, 'veld/contacts.html')
+
+
+def login(request):
+    return render(request, 'veld/login.html')
+
+
+class RegisterUser:
+    pass

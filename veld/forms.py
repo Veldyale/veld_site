@@ -16,13 +16,6 @@ class AddAppointmentForm(forms.ModelForm):
         model = Appointment
         # fields = '__all__'
         fields = ['service', 'master', 'datetime',]
-#
-#     def clean_title(self):
-#         title = self.cleaned_data['title']
-#         if len(title) > 200:
-#             raise ValidationError('Длина заголовка превышает 200 символов')
-#
-#         return title
 
 
 class RegisterUserForm(UserCreationForm):
