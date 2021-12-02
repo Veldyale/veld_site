@@ -2,7 +2,7 @@ from django.db import models
 
 class Post(models.Model):
     title = models.CharField(max_length=255, verbose_name='Заголовок')
-    image = models.ImageField(upload_to="photos/%Y/%m/%d", verbose_name='Изображение')
+    image = models.ImageField(verbose_name='Изображение')
     text = models.TextField(blank=True, verbose_name='Текст')
     is_published = models.BooleanField(default=True, verbose_name='Публикация')
     time_create = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')

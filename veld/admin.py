@@ -1,14 +1,19 @@
 from django.contrib import admin
+from django.utils.safestring import mark_safe
+
 from .models import *
 
 
 class PostAdmin(admin.ModelAdmin):
-    list_display = ("id", "title", "time_create", "is_published",)
+    list_display = ("id", "title", "time_create", "get_html_photo", "is_published",)
     list_display_links = ("id", "title", "time_create",)
     list_filter = ("is_published", "time_create",)
     search_fields = ("id", "title", "time_create",)
     list_editable = ("is_published",)
     # prepopulated_fields = {"slug": ("title",)}
+
+    def get_html_photo(self, object):
+        return mark_safe(f"<img src='{object.image.url}' width=50>")
 
 
 class AppointmentAdmin(admin.ModelAdmin):
