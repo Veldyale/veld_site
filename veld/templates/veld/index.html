@@ -1,20 +1,18 @@
 {% extends 'veld/base.html' %}
+{% load static %}
 
 {% block title %}
 OKSANA VELD
 {% endblock %}
-
 {% block album %}
     {% include 'veld/carousel.html' %}
 {% endblock %}
-
 {% block content %}
 <section class="py-5">
 <div class="container px-4 px-lg-5 mt-5">
     <div class="row row-cols-1 row-cols-md-3 mb-3 text-center " style="min-height: 600px;">
         {% for p in object_list %}
-            {% if p.image %}
-                {% if p.is_published %}
+        {% if p.image and p.is_published and p.place.id == 2 %}
                 <div class="col mb-4">
                     <div class="card col-xxl-3" style="max-width:345px; min-width:300px; border-radius: 0px;">
                         <div style="min-height: 340px;">
@@ -29,7 +27,6 @@ OKSANA VELD
                         </div>
                     </div>
                 </div>
-                {% endif %}
             {% endif %}
         {% endfor %}
     </div>
