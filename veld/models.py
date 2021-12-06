@@ -38,7 +38,7 @@ class Post(models.Model):
     text = models.TextField(blank=True, verbose_name='Текст')
     is_published = models.BooleanField(default=True, verbose_name='Публикация')
     time_create = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
-    end_date = models.DateField(default=None, blank=True, verbose_name='Завершить показ')
+    end_date = models.DateField(default=None, null=True, blank=True, verbose_name='Завершить показ')
 
     def __str__(self):
         return self.title
