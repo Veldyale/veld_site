@@ -21,3 +21,7 @@ a {
       font-size: 3.5rem;
     }
 }
+
+li {
+    list-style-type: none;
+   }
