@@ -24,4 +24,25 @@ a {
 
 li {
     list-style-type: none;
+    margin-bottom: 10px; /* Отступ слева */
+    padding-top: 10px; /* Отступ слева */
+
    }
+
+ul {
+    padding: 0; /* Убираем поля */
+    margin-left: 10px; /* Отступ слева */
+   }
+
+.footer {
+    background: #E1E1E1;
+}
+
+.footer-icon {
+  display: flex;
+  align-items: center;
+}
+
+.footer-icon img {
+  width: 25px;
+}
