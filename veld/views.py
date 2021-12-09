@@ -7,23 +7,33 @@ from datetime import datetime
 from veld.forms import *
 from veld.models import *
 
+def main_page(request):
+    banners = Banner.objects.filter(Q(is_published=True) & Q(end_date__gte=datetime.now()) | Q(is_published=True) & Q(end_date = None))
+    posts = Post.objects.all().filter(Q(is_published=True) & Q(end_date__gte=datetime.now()) | Q(is_published=True) & Q(end_date = None))
 
-class PostHome(ListView):
-    model = Post
-    template_name = 'veld/index.html'
-    context_object_name = 'posts'
+    response_data = {
+        'banners': banners,
+        'posts': posts,
+    }
 
-    def get_queryset(self):
-        return Post.objects.filter(Q(is_published=True) & Q(end_date__gte=datetime.now()) | Q(is_published=True) & Q(end_date = None))
+    return render(request, 'veld/index.html', response_data)
 
-
-class BannerHome(ListView):
-    model = Banner
-    template_name = 'veld/index.html'
-    context_object_name = 'banners'
-
-    def get_queryset(self):
-        return Banner.objects.filter(Q(is_published=True) & Q(end_date__gte=datetime.now()) | Q(is_published=True) & Q(end_date = None))
+# class PostHome(ListView):
+#     model = Post
+#     template_name = 'veld/index.html'
+#     context_object_name = 'posts'
+#
+#     def get_queryset(self):
+#         return Post.objects.filter(Q(is_published=True) & Q(end_date__gte=datetime.now()) | Q(is_published=True) & Q(end_date = None))
+#
+#
+# class BannerHome(ListView):
+#     model = Banner
+#     template_name = 'veld/index.html'
+#     context_object_name = 'banners'
+#
+#     def get_queryset(self):
+#         return Banner.objects.filter(Q(is_published=True) & Q(end_date__gte=datetime.now()) | Q(is_published=True) & Q(end_date = None))
 
 # def index(request):
 #     return render(request, 'veld/index.html')
