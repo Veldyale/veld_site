@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.shortcuts import render
 from django.http import HttpResponse
@@ -7,6 +8,14 @@ from datetime import datetime
 from veld.forms import *
 from veld.models import *
 
+
+menu = [{'title': 'Запись', 'url_name': 'addappointment'},
+          {'title': 'Цены', 'url_name': 'pricelist'},
+          {'title': 'Контакты', 'url_name': 'contacts'},
+          {'title': 'Войти', 'url_name': 'login'},
+          ]
+
+
 def main_page(request):
     banners = Banner.objects.filter(Q(is_published=True) & Q(end_date__gte=datetime.now()) | Q(is_published=True) & Q(end_date = None))
     posts = Post.objects.all().filter(Q(is_published=True) & Q(end_date__gte=datetime.now()) | Q(is_published=True) & Q(end_date = None))
@@ -14,6 +23,7 @@ def main_page(request):
     response_data = {
         'banners': banners,
         'posts': posts,
+        'menu': menu,
     }
 
     return render(request, 'veld/index.html', response_data)
@@ -38,22 +48,40 @@ def main_page(request):
 # def index(request):
 #     return render(request, 'veld/index.html')
 
-
+@login_required
 def addappointment(request):
     form = AddAppointmentForm()
-    return render(request, 'veld/addappointment.html', {'form': form})
+
+    response_data = {
+        'form': form,
+        'menu': menu,
+    }
+
+    return render(request, 'veld/addappointment.html', response_data)
 
 
 def pricelist(request):
-    return render(request, 'veld/pricelist.html')
+    response_data = {
+        'menu': menu,
+    }
+
+    return render(request, 'veld/pricelist.html', response_data)
 
 
 def contacts(request):
-    return render(request, 'veld/contacts.html')
+    response_data = {
+        'menu': menu,
+    }
+
+    return render(request, 'veld/contacts.html', response_data)
 
 
 def login(request):
-    return render(request, 'veld/login.html')
+    response_data = {
+        'menu': menu,
+    }
+
+    return render(request, 'veld/login.html', response_data)
 
 
 class RegisterUser:
