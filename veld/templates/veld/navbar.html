@@ -6,7 +6,7 @@
       </a>
 
       <nav class="d-inline-flex mt-0 mt-md-0 ms-md-auto">
-      {% for m in menu %}
+      {% for m in user_menu %}
         <a class="me-3 py-2 text-dark text-decoration-none" href="{% url m.url_name %}">{{m.title}}</a>
       {% endfor %}
       </nav>

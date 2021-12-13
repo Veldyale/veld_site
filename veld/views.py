@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.shortcuts import render
+from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView
 from datetime import datetime
 
@@ -135,5 +136,12 @@ def login(request):
     return render(request, 'veld/login.html', response_data)
 
 
-class RegisterUser:
-    pass
+class RegisterUser(DataMixin, CreateView):
+    form_class = UserCreationForm
+    template_name = 'veld/register.html'
+    success_url = reverse_lazy('login')
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(title='Регистрация')
+        return dict(list(context.items()) + list(c_def.items()))

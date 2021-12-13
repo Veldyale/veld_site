@@ -1,7 +1,7 @@
 menu = [{'title': 'Запись', 'url_name': 'addappointment'},
         {'title': 'Цены', 'url_name': 'pricelist'},
         {'title': 'Контакты', 'url_name': 'contacts'},
-        {'title': 'Регистрация', 'url_name': 'login'},
+        {'title': 'Регистрация', 'url_name': 'register'},
         {'title': 'Войти', 'url_name': 'login'},
         {'title': 'Выйти', 'url_name': 'login'}
         ]
@@ -18,9 +18,9 @@ class DataMixin:
             user_menu.pop(3)
             user_menu.pop(3)
 
-        context['menu'] = user_menu
+        # context['menu'] = user_menu
 
         context = {
-            'menu': menu,
+            'user_menu': user_menu,
         }
         return context

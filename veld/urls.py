@@ -7,5 +7,5 @@ urlpatterns = [
     path('pricelist/', PriceList.as_view(), name='pricelist'),
     path('contacts/', Contacts.as_view(), name='contacts'),
     path('login/', login, name='login'),
-    # path('register/', RegisterUser, name='register'),
+    path('register/', RegisterUser.as_view(), name='register'),
 ]
