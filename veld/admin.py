@@ -1,8 +1,35 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin, UserAdmin
+from django.contrib.auth.models import User
+from django.contrib import auth
+# from django.contrib.auth import get_user_model
 
 from .models import *
+from .forms import *
 
+
+class CustomUserAdmin(UserAdmin):
+    add_form = CustomUserCreationForm
+    form = CustomUserChangeForm
+    model = CustomUser
+    list_display = ('name', 'phone', 'is_staff', 'is_active',)
+    list_display_links = ('name', 'phone', 'is_staff', 'is_active',)
+    list_filter = ('name', 'phone', 'is_staff', 'is_active',)
+    fieldsets = (
+        (None, {'fields': ('name', 'phone', 'password')}),
+        ('Permissions', {'fields': ('is_staff', 'is_active')}),
+    )
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('name', 'phone', 'password1', 'password2', 'is_staff', 'is_active')}
+        ),
+    )
+    search_fields = ('phone',)
+    ordering = ('phone',)
+
+# CustomUserNew = get_user_model()
 
 class BannerAdmin(admin.ModelAdmin):
     list_display = ("id", "title", "time_create", "get_html_photo", "queue", "is_published", "end_date",)
@@ -29,20 +56,26 @@ class PostAdmin(admin.ModelAdmin):
 
 
 class AppointmentAdmin(admin.ModelAdmin):
-    list_display = ("id", "customer", "service", "datetime",)
-    list_display_links = ("id", "customer", "service", "datetime",)
+    list_display = ("id", "service", "datetime",)
+    list_display_links = ("id", "service", "datetime",)
     # list_filter = ("is_published", "time_create",)
     # search_fields = ("id", "title", "time_create",)
     # list_editable = ("is_published",)
     # prepopulated_fields = {"slug": ("title",)}
 
 
-class CustomerAdmin(admin.ModelAdmin):
-    list_display = ("id", "name", "phone_number", "gender",)
-    list_display_links = ("id", "name",)
+# class CustomerAdmin(admin.StackedInline):
+#     model = Customer
+#     can_delete = False
+#     verbose_name_plural = 'Клиент'
+    # list_display = ("id", "name", "phone_number", "gender",)
+    # list_display_links = ("id", "name",)
     # list_filter = ("id", "name",)
     # search_fields = ("id", "name",)
     # prepopulated_fields = {"slug": ("name",)}
+
+# class UserAdmin(BaseUserAdmin):
+#     inlines = (CustomerAdmin,)
 
 
 class ServiceAdmin(admin.ModelAdmin):
@@ -67,10 +100,13 @@ class LinkAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Appointment, AppointmentAdmin)
-admin.site.register(Customer, CustomerAdmin)
-admin.site.register(Gender)
+# admin.site.register(Customer, CustomerAdmin)
 admin.site.register(Service, ServiceAdmin)
 admin.site.register(Master, MasterAdmin)
 admin.site.register(Post, PostAdmin)
 admin.site.register(Banner, BannerAdmin)
 admin.site.register(Link, LinkAdmin)
+# admin.site.unregister(User)
+# admin.site.register(User, UserAdmin)
+admin.site.register(CustomUser, CustomUserAdmin)
+admin.site.unregister(auth.models.Group)

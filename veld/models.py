@@ -1,4 +1,32 @@
 from django.db import models
+from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractBaseUser
+from django.contrib.auth.models import PermissionsMixin
+from django.utils.translation import gettext_lazy as _
+from django.utils import timezone
+
+from .managers import CustomUserManager
+
+
+class CustomUser(AbstractBaseUser, PermissionsMixin):
+    phone = models.CharField(max_length=10, unique=True, verbose_name='Телефон')
+    name = models.CharField(max_length=12, verbose_name='Имя')
+    is_staff = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+    date_joined = models.DateTimeField(default=timezone.now)
+
+    USERNAME_FIELD = 'phone'
+    REQUIRED_FIELDS = []
+
+    objects = CustomUserManager()
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ('name',)
+        verbose_name = "Пользователь"
+        verbose_name_plural = "Пользователи"
 
 class Banner(models.Model):
     title = models.CharField(max_length=255, verbose_name='Заголовок')
@@ -21,7 +49,7 @@ class Banner(models.Model):
 
 class Link(models.Model):
     name = models.CharField(max_length=100, verbose_name='Ссылка')
-    path = models.CharField(max_length= 100, verbose_name='Путь')
+    path = models.CharField(max_length=100, verbose_name='Путь')
 
     def __str__(self):
         return self.name
@@ -51,7 +79,7 @@ class Post(models.Model):
 
 class Appointment(models.Model):
     service = models.ForeignKey('Service', on_delete=models.PROTECT, verbose_name='Услуга')
-    customer = models.ForeignKey('Customer', on_delete=models.PROTECT, verbose_name='Клиент')
+    # customer = models.ForeignKey('Customer', on_delete=models.PROTECT, verbose_name='Клиент')
     master = models.ForeignKey('Master', on_delete=models.PROTECT, verbose_name='Мастер')
     datetime = models.DateTimeField(verbose_name='Дата и время')
     # durations_service_time = models.ForeignKey('Service', on_delete=models.PROTECT, verbose_name='Длительность')
@@ -65,30 +93,17 @@ class Appointment(models.Model):
         verbose_name_plural = "Записи"
 
 
-class Customer(models.Model):
-    name = models.CharField(max_length=255, verbose_name="Имя")
-    gender = models.ForeignKey('Gender', on_delete=models.PROTECT, verbose_name='Пол')
-    phone_number = models.CharField(max_length=12, verbose_name="Номер телефона")
+# class Customer(models.Model):
+#     user = models.OneToOneField(User, on_delete=models.CASCADE)
+#     phone_number = models.CharField(max_length=10, verbose_name="Номер телефона")
 
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        ordering = ('name',)
-        verbose_name = "Клиент"
-        verbose_name_plural = "Клиенты"
-
-
-class Gender(models.Model):
-    name = models.CharField(max_length=30, verbose_name='Пол')
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        ordering = ('name',)
-        verbose_name = "Пол"
-        verbose_name_plural = "Пол"
+    # def __str__(self):
+    #     return self.user
+    #
+    # class Meta:
+    #     ordering = ('user',)
+    #     verbose_name = "Клиент"
+    #     verbose_name_plural = "Клиенты"
 
 
 class Service(models.Model):

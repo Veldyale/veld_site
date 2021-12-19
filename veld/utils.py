@@ -6,21 +6,17 @@ menu = [{'title': 'Запись', 'url_name': 'addappointment'},
         {'title': 'Выйти', 'url_name': 'login'}
         ]
 
-
 class DataMixin:
     def get_user_context(self, **kwargs):
         context = kwargs
 
-        user_menu = menu.copy()
+        user_menu = menu.copy()  # для главной страницы это условие реализовано отдельно в функции представления
         if not self.request.user.is_authenticated:
             user_menu.pop(5)
         else:
             user_menu.pop(3)
             user_menu.pop(3)
 
-        # context['menu'] = user_menu
+        context['menu'] = user_menu
 
-        context = {
-            'user_menu': user_menu,
-        }
         return context
