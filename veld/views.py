@@ -105,7 +105,7 @@ def login(request):
 
 
 class RegisterUser(DataMixin, CreateView):
-    form_class = UserCreationForm
+    form_class = RegisterUserForm
     template_name = 'veld/register.html'
     success_url = reverse_lazy('login')
 
