@@ -1,7 +1,9 @@
+from django.contrib.auth import logout, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import LoginView
 from django.db.models import Q
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView
 from datetime import datetime
@@ -96,13 +98,6 @@ class Contacts(DataMixin, ListView):
     def get_queryset(self):
         return Service.objects.all()
 
-def login(request):
-    response_data = {
-        # 'menu': menu,
-    }
-
-    return render(request, 'veld/login.html', response_data)
-
 
 class RegisterUser(DataMixin, CreateView):
     form_class = RegisterUserForm
@@ -113,3 +108,25 @@ class RegisterUser(DataMixin, CreateView):
         context = super().get_context_data(**kwargs)
         c_def = self.get_user_context(title='Регистрация')
         return dict(list(context.items()) + list(c_def.items()))
+
+    def form_valid(self, form):
+        user = form.save()
+        login(self.request, user)
+        return redirect('index')
+
+
+class LoginUser(DataMixin, LoginView):
+    form_class = AuthenticationForm
+    template_name = 'veld/login.html'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(title='Авторизация')
+        return dict(list(context.items()) + list(c_def.items()))
+
+    def get_success_url(self):
+        return reverse_lazy('index')
+
+def logout_user(request):
+    logout(request)
+    return redirect('login')

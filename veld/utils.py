@@ -3,7 +3,7 @@ menu = [{'title': 'Запись', 'url_name': 'addappointment'},
         {'title': 'Контакты', 'url_name': 'contacts'},
         {'title': 'Регистрация', 'url_name': 'register'},
         {'title': 'Войти', 'url_name': 'login'},
-        {'title': 'Выйти', 'url_name': 'login'}
+        {'title': 'Выйти', 'url_name': 'logout'}
         ]
 
 class DataMixin:
